@@ -26,6 +26,10 @@ function getInputs(string) {
     }
     ops= str[1].charAt(0);
     str[1]= str[1].replace(str[1].charAt(0), '');
+    if (str[1]=='') {
+        // no second number
+        return [Number(str[0]), [], ''];
+    }
     return [Number(str[0]), Number(str[1]), ops];
 }
 
@@ -105,8 +109,12 @@ for (let n=0; n<16; n++) {
         btn.addEventListener('click', function(e) {
             // append number to display box
             let display= document.getElementById('display');
-            display.value= display.value+
-                this.textContent;
+            if (Number(display.value)==0) {
+                display.value= this.textContent;
+            } else {
+                display.value= display.value+
+                    this.textContent;
+            }
         })
     } else if (text_table[n]==('CLR')) {
         btn.addEventListener('click', function() {
@@ -123,17 +131,24 @@ for (let n=0; n<16; n++) {
             let input= getInputs(display.value);
             let value= doMath(input);
             if (value%1 !== 0) {
-                value= value.toFixed(3);
+                value= value.toFixed(5);
             }
-            display.value= `${value}`+this.textContent;
+            
+            // display.value= `${value}`+this.textContent;
+            if (this.textContent == '=') {
+                display.value= `${value}`;
+            } else {
+                display.value= `${value}`+this.textContent;
+            }
         }
         );
         
 
     }
     
+    
     buttonpanel.appendChild(btn);
 
-}
+};
 
 //let result = doMath(6,2,'-');
