@@ -1,0 +1,40 @@
+#container {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#disp-panel{
+    display: flex;
+    justify-content: center;
+}
+#display {
+    height: 30px;
+    width: 70%;
+    font-size: 30px;
+    
+}
+
+
+#numpad-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 10%;
+}
+
+
+.button {
+    width: 22%; /*distribute the buttoms with 5% arround each */
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 26;
+    justify-content: center;
+    align-items: center;
+}
