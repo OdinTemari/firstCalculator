@@ -89,8 +89,37 @@ function calcualte(inputstr) {
 
 
 ///
+function numberButtonClicked(numvalue) {
+    let display= document.getElementById('display');
+    if (Number(display.value)==0) {
+        display.value= numvalue;
+    } else {
+        display.value= display.value+
+            numvalue;
+    }
+}
 
+function operandButtonClicked(operand) {
+    let display = document.getElementById('display');
+    let input= getInputs(display.value);
+    let value= doMath(input);
+    if (value%1 !== 0) {
+        value= value.toFixed(5);
+    }
+    
+    // display.value= `${value}`+this.textContent;
+    if (operand == '=') {
+        display.value= `${value}`;
+    } else {
+        //if (value==0) {value=''};
+        display.value= `${value}`+`${operand}`;
+    }
+}
 
+function clrButtonClicked() {
+    let display= document.getElementById('display');
+        display.value='';
+}
 
 // create number pads on the interface
 const buttonpanel= document.getElementById('numpad-panel');
@@ -108,38 +137,43 @@ for (let n=0; n<16; n++) {
     if (Number(text_table[n])) {
         btn.addEventListener('click', function(e) {
             // append number to display box
-            let display= document.getElementById('display');
-            if (Number(display.value)==0) {
-                display.value= this.textContent;
-            } else {
-                display.value= display.value+
-                    this.textContent;
-            }
+            numberButtonClicked(this.textContent);
+            // let display= document.getElementById('display');
+            // if (Number(display.value)==0) {
+            //     display.value= this.textContent;
+            // } else {
+            //     display.value= display.value+
+            //         this.textContent;
+            // }
         })
     } else if (text_table[n]==('CLR')) {
         btn.addEventListener('click', function() {
             // clear display funciton
-            let display= document.getElementById('display');
-            display.value='';
+            clrButtonClicked();
+
+            // let display= document.getElementById('display');
+            // display.value='';
         })
     } else {
         // operand buttons
         // evaluate current content in display and
         // append current operand
         btn.addEventListener('click', function() {
-            let display = document.getElementById('display');
-            let input= getInputs(display.value);
-            let value= doMath(input);
-            if (value%1 !== 0) {
-                value= value.toFixed(5);
-            }
+            operandButtonClicked(this.textContent);
+
+            // let display = document.getElementById('display');
+            // let input= getInputs(display.value);
+            // let value= doMath(input);
+            // if (value%1 !== 0) {
+            //     value= value.toFixed(5);
+            // }
             
-            // display.value= `${value}`+this.textContent;
-            if (this.textContent == '=') {
-                display.value= `${value}`;
-            } else {
-                display.value= `${value}`+this.textContent;
-            }
+            // // display.value= `${value}`+this.textContent;
+            // if (this.textContent == '=') {
+            //     display.value= `${value}`;
+            // } else {
+            //     display.value= `${value}`+this.textContent;
+            // }
         }
         );
         
@@ -151,4 +185,30 @@ for (let n=0; n<16; n++) {
 
 };
 
-//let result = doMath(6,2,'-');
+window.addEventListener("keydown", function (e) {
+    console.log(e.keyCode); //96-105 is 0 to 9; 106 *, 111 /, 107 +, 109 -
+    if (e.keyCode >= 96 && e.keyCode <=105) {
+        // numbers pressed
+        numberButtonClicked((e.keyCode-96)); //Sends 0-9 
+    } else if (e.keyCode==106) {
+        // operand button pressed
+        operandButtonClicked('*')
+    } else if (e.keyCode==111) {
+        // operand button pressed
+        operandButtonClicked('/')
+    } else if (e.keyCode==107) {
+        // operand button pressed
+        operandButtonClicked('+')
+    } else if (e.keyCode==109) {
+        // operand button pressed
+        operandButtonClicked('-')
+    } else if (e.keyCode==13) {
+        // enter key pressed
+        operandButtonClicked('=')
+    } else if (e.keyCode==27) {
+        // esc key pressed
+        clrButtonClicked();
+
+    }
+});
+
